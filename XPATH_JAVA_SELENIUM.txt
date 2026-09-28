@@ -1,0 +1,73 @@
+Xpath ->
+Xpath is a query language for selecting nodes from HTML/XML  document 
+DOM Document Object model->
+
+Relative xpath 99.99 % used and absolute 0.01%
+Relative -> Format -> //tagName[@attribute='Value']
+               e.g.-> //name[name='username']  - Will give unique webelement is fast 
+                      //*[name ='username'] - This will be slow * is always slow 
+
+
+Xpath Functions ->
+known are known attributes like id and tagname 
+other is Text matching 
+
+1.Full visible Text -> text() -> //a[text()="Make Appointment"]
+2.Partial visible Text -> contains(pecially for half dynamics interview asked) ->
+                       //a[contains(text(),"Make")]
+              OR       //a[contains(text(),"Make Appointment")]
+              OR       //a[contains(text(),"Appointment")]  -> Any partial text
+
+OR
+B.User= starts-with() method 
+          e.g. //a[starts-with(text(),"Make")]
+              
+
+c.Or can use normalized space if there is space before Make word -
+
+          e.g. //a[normalized-space="Make Appointment"] -> Removes space before and after tails
+
+ Tip ->Contains will work all the time
+
+D.Operators AND & OR ->
+
+e.g. //a[text()=""Make Appointment" and contains(@id, "Btn-make-appointment")]
+
+=======================================================
+Xpath Axes->
+In XML document, we have relationships between nodes (html tags) to locate those nodes in the DOM structure
+*To find the child - 
+//div[@class='Mammal']/child::div
+
+*To find the parent -
+//div[@class='Mammal']/parent::div
+
+-----------------------------------------------------------------------
+
+*CSS Selectors->
+ There is not a rule which one we should use css /xpath , it depends on requirement
+//input[@id='username']  => input[id='username']
+->Remove // and @ to convert to css selector
+-> #id , .class
+CSS[attribute = value]selector - contains
+text() -> attribute = value
+contains -> attribute* = value 
+starts-with -> attribute^ =value
+Ends-with -> attribute$ = value
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

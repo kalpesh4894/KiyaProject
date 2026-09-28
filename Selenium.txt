@@ -1,0 +1,358 @@
+1.waits -> Implicit , explicit and fluent wait\
+ 1. Implicit Wait
+
+     Applied globally
+     Waits for elements to appear
+  e.g. driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+2.Explicit Wait
+   Waits for a specific condition
+e.g. WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+
+3.Fluent wait 
+     Advanced explicit wait with polling interval
+
+  e.g. Wait<WebDriver> wait = new FluentWait<>(driver)
+      .withTimeout(Duration.ofSeconds(20))
+      .pollingEvery(Duration.ofSeconds(5))
+      .ignoring(NoSuchElementException.class);
+---------------------------------------------------------------------------------------
+Screenshots in selenium ->
+
+In my Selenium framework, I use the TakesScreenshot interface to capture screenshots. I have implemented screenshot capture inside TestNG listeners so that whenever a test case fails, a screenshot is automatically taken and attached to Extent Reports for debugging and defect analysis. This helps identify the exact UI state at the moment of failure."
+
+import org.apache.commons.io.FileUtils; // For easy file operations
+
+public class ScreenshotExample {
+
+    public static void main(String[] args) {
+        // Set the path to your ChromeDriver executable
+        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
+
+        // Initialize WebDriver
+        WebDriver driver = new ChromeDriver();
+
+        try {
+            // Navigate to a website
+            driver.get("https://www.example.com");
+
+            // Convert WebDriver object to TakesScreenshot
+            TakesScreenshot ts = (TakesScreenshot) driver;
+
+            // Capture the screenshot as a File
+            File sourceFile = ts.getScreenshotAs(OutputType.FILE);
+
+            // Define the destination for the screenshot
+            File destinationFile = new File("./screenshots/screenshot.png");
+
+            // Copy the source file to the destination
+            FileUtils.copyFile(sourceFile, destinationFile);
+
+            System.out.println("Screenshot taken and saved to: " + destinationFile.getAbsolutePath());
+
+        } catch (IOException e) {
+            System.err.println("Failed to capture screenshot: " + e.getMessage());
+        } finally {
+            // Close the browser
+            driver.quit();
+        }
+    }
+}
+Taking a screenshot (or "snap") in Selenium with Java involves using the TakesScreenshot interface and its getScreenshotAs() method. This allows you to capture the visible portion of the browser window.
+
+================================================================================================
+12. What is the difference between Assert and SoftAssert?
+✔️ Answer:
+
+Assert:
+
+Stops execution when the assertion fails.
+
+SoftAssert:
+
+Continues execution even if assertion fails.
+
+Must call assertAll() at the end.
+==========================================================================================================
+
+3. Explain Page Object Model (POM).
+✔️ Answer:
+
+POM is a design pattern that creates separate classes for each page of the application.
+Each class stores:
+
+Web elements (using @FindBy)
+
+Page actions (methods)
+
+Benefits:
+
+Reduces code duplication
+
+Increases readability and maintainability
+
+Easier to update locators
+-----------------------------------------------------------------------------------------------------------
+6. How do you handle multiple windows in Selenium?
+✔️ Answer:
+I handle multiple windows using getWindowHandle() and getWindowHandles(). I first store the parent window ID, perform the action that opens the new window, then iterate through all window handles and switch to the required child window using driver.switchTo().window(). After completing the required actions, I close the child window and switch back to the parent window.  
+
+
+
+String parent = driver.getWindowHandle();
+Set<String> allwindows = driver.getWindowHandles();
+
+for (String child : allwindows) {
+    if (!child.equals(parent)) {
+        driver.switchTo().window(child);
+    }
+}
+======================================================================================================
+9. How do you select a value from a dropdown?
+✔️ Answer:
+Select select = new Select(driver.findElement(By.id("country")));
+select.selectByVisibleText("India");
+select.selectByValue("IN");
+select.selectByIndex(2);
+==================================================================================================
+10. How doo you take snaps in selenium?
+
+File src = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+FileUtils.copyFile(src, new File("screenshot.png"));
+
+File src = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE); ->
+driver is your Selenium WebDriver instance.
+(TakesScreenshot) driver casts your WebDriver to this screenshot-capable interface.
+.getScreenshotAs(OutputType.FILE) takes a screenshot and returns it as a File object.
+The screenshot taken by the driver is stored in a temporary file, and this reference is kept in the variable src.
+So this line captures a screenshot of the current browser window and stores it in a temporary file.
+
+FileUtils.copyFile(src, new File("screenshot.png")); ->
+FileUtils is from Apache Commons IO.
+.copyFile(src, new File("screenshot.png")) copies the temporary screenshot file (src) into a new file named screenshot.png in your project or working directory.
+So this line saves the screenshot permanently to a file called screenshot.png.
+================================================================================================================
+11.How you upload file in selenium?
+-> WebElement upload = driver.findElement(By.id("uploadFile"));
+  upload.sendKeys("C:\\Users\\yourUser\\Documents\\testfile.pdf");
+
+==========================================================================================================
+12. How use javascript executor if element becomes unclickable because of dynamic delays?
+-> JavascriptExecutor js = (JavascriptExecutor) driver;
+js.executeScript("arguments[0].click();", element);
+----------------------------------------------------------------------------------------------
+13.How do you handle  dynamic elements ?
+-> “I handle dynamic elements by using stable locators such as contains(), starts-with(), and parent-child XPaths instead of relying on dynamic IDs. I also use explicit waits to wait for elements to load, and I handle stale element issues using ExpectedConditions.refreshed(). These techniques ensure my tests are stable even when UI attributes change.” 
+=========================================================================================================
+14.1. What is your approach when application UI keeps changing?
+
+“When the UI keeps changing, I focus on making my locators resilient using stable attributes like name, text, or parent-child relationships instead of brittle IDs.
+I also implement a page object model, so when a change happens, I fix it in one place.
+Additionally, I work closely with developers to request test-friendly attributes (e.g., data-testid).
+To minimize rework, I keep my framework modular and update only the affected pages.”
+
+===========================================================================================================
+
+15. How do you identify good test cases for automation?
+“I choose test cases that are:
+✔ High regression value
+✔ Repetitive
+✔ Stable functionality
+✔ Time-consuming manually
+✔ Have predictable outcomes
+✔ Data-driven
+
+I avoid one-time tests, unstable UI areas, or tests requiring heavy visual validation.”
+===========================================================================================================
+
+
+16. What to automate first in a new project?
+
+“I automate:
+
+Smoke tests
+
+Critical user journeys (login, checkout, search, etc.)
+
+APIs used by UI
+
+Once the foundation is stable, I expand to regression areas and edge cases.”
+=====================================================================================================
+
+17.1️⃣ Encapsulation — Hiding data using classes + private variables
+
+Bind data + methods inside a class.
+
+Access using getters/setters.
+
+Example:
+
+public class LoginPage {
+    private String username;
+    public void setUsername(String user) { this.username = user; }
+}
+18.2️⃣ Inheritance — Child acquires properties of parent
+
+Example:
+
+class BasePage { WebDriver driver; }
+class LoginPage extends BasePage { }
+
+3️⃣ Polymorphism — One name, multiple forms
+
+Method overloading (compile-time)
+
+Method overriding (runtime)
+
+Example:
+
+public void click(String locator);
+public void click(WebElement element);
+
+4️⃣ Abstraction — Showing functionality, hiding complexity
+
+Achieved via abstract class/interface.
+
+Example:
+
+interface DriverActions { void click(); }
+
+==========================================================================================
+
+19.Can we override static method 
+-> No , static cant be overridden because Static methods belong to the class, not the object.
+-------------------------------------------------------------------------------------------
+20.0. What are access modifiers in Java?
+->Modifier	 Access Scope
+public	          - Accessible everywhere
+protected	 -Accessible in same package + subclasses
+default (no modifier)-	Accessible only in same package
+private	       -Accessible only within class
+
+=================================================================================================
+21. reverse 'i am working in infosys'
+->public class ReverseCharacters {
+    public static void main(String[] args) {
+        String sentence = "i am working in infosys";
+        String reversed = "";
+
+        for (int i = sentence.length() - 1; i >= 0; i--) {
+            reversed += sentence.charAt(i);
+        }
+
+        System.out.println(reversed);
+    }
+}
+=================================================================================================
+22. How do you upload files in java selenium ?
+// Locate the file input element
+By fileInput = By.id("resumeUpload");
+
+// Upload file by sending full path
+driver.findElement(fileInput).sendKeys("C:\\Users\\User\\Documents\\resume.pdf");
+===========================================================================================================
+23. Lambda Epression ->
+
+import java.util.ArrayList;
+
+public class Main {
+  public static void main(String[] args) {
+    ArrayList<Integer> numbers = new ArrayList<Integer>();
+    numbers.add(5);
+    numbers.add(9);
+    numbers.add(8);
+    numbers.add(1);
+    numbers.forEach((n) -> { System.out.println(n); });  -> This is Lambda Expression
+  }
+}
+
+used to implement functional interfaces, which are interfaces with a single abstract method.
+
+=========================================================================================================
+
+
+24.Where have you used listeners in your framework?
+->In my Selenium TestNG framework, I implemented ITestListener to capture screenshots automatically for failed test cases, update Extent Reports with execution status, maintain Log4j logs, and send execution summaries after suite completion. This reduced manual effort and improved debugging efficiency. I also used listeners along with Retry Analyzer to rerun flaky test cases caused by environment-related issues.
+Code on failure test ->
+ @Override
+  public void onTestFailure(ITestResult result) {
+  takeScreenshot(result.getName());
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

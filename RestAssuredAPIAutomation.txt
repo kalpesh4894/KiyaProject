@@ -1,0 +1,197 @@
+JSON path->
+you get the data in json string
+1.make a request post -> json string -> req ->payload
+2.response also in JSON string
+3.Exract the response from the response string and verify(by using assertJ , testng assertions, default RA)
+
+
+JSON Path ->()Rest assured)
+1.json path is a query language for JSON
+2.
+
+
+*3 steps to process any API 
+a.Make a rrequest and get the response
+b.Extract the data from the response
+c.Verify the response
+
+How to handle the payload
+1.String
+2.Hashmap(2%)
+3.Class(90%) If you have more than 500 testcases
+
+To support the hashmap and the classes , we need to add 3rd party library 
+To convert Hashmap to input stream
+1.GSON
+2.Jackson API
+
+Q->Why we move from string to maps and maps to ClasS
+Ans ->The variable dynamic values becomes easier to handle so we moved 	
+
+Linkedin hashmaps to strings conversion is the serialization -> which is done using GSON/Jackson API
+Strings to Linkedin hshmaps conversion is Deserialization ->Also done by GSON/JACKSON API
+(GSON/JACKSON are tranlsators which convert string to hashmap and vice versa)
+
+*If we use string, we need to change everytime name in payload , so we use map, In classes we will use getter setters so it becomes easiest in class 
+Dynamic data handling is easy in class > maps> string so moved from string to hashmap to classes
+
+
+*)Serialization and deserialization:->
+
+Client sent req - URL,headers, body, auth, params,cookies(QP/PP) - ByteStream format
+Response  we get -headers, response, body , status 
+
+problems with Strings ->dynamic data, maintainance is high,reusability high
+problems with hashmaps -> duplicate code , maintainance medium, reusaboility medium
+problems with class ->no duplicate code,maintainance is easy, reusability
+
+To convert JSON to POJO ->
+Suppose we have JSON ->{
+  "firstname": "Ahmad",
+  "lastname": "Brown",
+  "totalprice": 111,
+  "depositpaid": false,
+  "bookingdates": {
+    "checkin": "2018-01-01",
+    "checkout": "2019-01-01"
+  },
+  "additionalneeds": "Cookie Khanar"
+}
+
+Rules are->
+Class keywords are names of the data types
+eg here Booking will be a class and Bookingdates will be the another class
+//Can use getter setters or can direct use JSON to POJO convertor tool 
+
+-------------------------------------------------------------------------------------
+*Features of good API Framework ->
+Organizing a code in such a manner where we can achieve 
+Maintainance
+Reusablity 
+Structured way
+Organize
+Readablity
+data driven testing
+integration with CI/CD
+Enhanced reporting(logs)
+Proper folder structure
+REST (API)- Generic in nature,
+Payload management 
+Flexible and scalability
+Support different environment-QA PROD UAT
+Credentials should be hidden
+Linting - Best coding practices-solarLint
+
+Custom Hybrid API Framework(We are preparing-- mix of data driven adn module driven and payload driven) ->
+supports graphql , soap api too
+
+Tech Stack ->
+1.Java
+2.Rest Assured
+3.Maven
+4.TestNG , AssertJ
+5.Payload Management - POJO classes - 1.GSON , 2.Jackson
+6.Reporting -> Allure 
+7.Test Data -> JSON files / Excels(Apache POI/Fillow)
+8.Linting -> Sonarlint
+9.JDKK - 22
+10.GIT, Jenkins
+
+Interview questions on framework ->
+1.To manage dependancies/ projects -Maven/Gradle
+2.To manage date - (Excel/json files/prop files/xml files)- Apache POI/fillow
+3.To manage payload and endpoints - json strings/ json maps/pojos / serialize / deserialize /gson
+4.To manage tests(testng/allure for this)precondition/postcondition/set/config/teardown/steps,description,priority,severity/exexution) 
+5.Reused components (keywords, abstraction , inheritance, java generics, configgs,specs,setups/helpers)
+6.To get logs we used TestNG, Allure and textloggers log4j
+7.Reports Test summary -  percentage , steps,description , failure reason,  logs allure
+8.Utils - String manipulators, Json manipulators, data manipulators,Readers/writers/custom code/tools-faker
+9.CI/CD - version controlling - github/git, continuous integration and testing -jenkins
+Jenkins file+ GIT +Github
+Apache poi basically used to read excel file / Fillo is also used to read excel file so added dependency
+(apachepoi / fillo - choose 1)
+(gson/jackson - choose 1)
+(allure testng)
+ Tell pojo is must strings, hashmaps 
+
+*Ping url is a health check URL
+
+POJO->
+Plain old java object 
+normal java class which is mapped with the payload that we are sending
+Booking -> {}- bookingDates-> two classes are created
+They will help in serialization and deserialization
+-> now will Add log4j
+-> property reader -> property - key value pair ,testdataproperties -
+-> Retry logic /Listeners
+-> TC-1
+-> DDT
+-> Extent report
+-> Jenkins
+
+By creating a different testng file we can run testsuite on differenet environment by passing different url's.
+
+Q. How chaining of the API is done in Rest assured api
+-> Using iTestContext which passess token to next tests within the same class once declared in the first TC 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,84 @@
+                                  Test Complete Automation
+=============================================================================================================
+1.Architecture
+  Project suite 
+   Webpages
+   Tests
+   Utilities
+   Testdata
+   Reports 
+   Events
+   Namemapping 
+  
+
+2.How do you take snaps in tool?
+->Log.Picture(Sys.Desktop.Picture(),"Failure Screenshot");
+
+3.How do you parameterize tests?
+->Project Variables
+Environment Variables
+Excel Data
+Databases
+
+4.What is checkpoint in testcomplete ?
+->A checkpoint in TestComplete is an automated verification command that compares the actual state of your application against an expected baseline during test execution
+Just E.G.->
+function TestPropertyCheckpoint() {
+  // Access the target object using Aliases
+  let page = Aliases.Browser.PageMain;
+  let welcomeLabel = page.PanelWelcome;
+  
+  // Verify that the 'contentText' property equals "Welcome, User!"
+  // Syntax: aqObject.CheckProperty(Object, PropertyName, Condition, ExpectedValue)
+  aqObject.CheckProperty(welcomeLabel, "contentText", cmpEqual, "Welcome, User!");
+}
+ Property Checkpoint,Region Checkpoint,File Checkpoint,Database Checkpoint,XML Checkpoint
+----------------------------------------------------------------------------------------------------------
+5.How do you generate reports?
+->Log.Message()
+Log.Warning()
+Log.Error()
+Log.Picture()
+
+TestComplete automatically generates execution reports.
+-------------------------------------------------------------------------------------------------------------
+6.What is Name Mapping?
+->Name Mapping is TestComplete's Object Repository where UI elements are stored with logical names. It helps maintain scripts even when object properties change.
+-------------------------------------------------------------------------------------------------------------
+7.How do you handle dynamic objects?
+->Using:
+  XPath/CSS
+  Wildcards
+  Regular Expressions
+  FindChild()
+ var obj = page.Findchild("ContentText", "Submit", 10);
+
+-----------------------------------------------------------------------------------------------------------
+8.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
