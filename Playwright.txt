@@ -1,0 +1,85 @@
+import { chromium, FullConfig } from '@playwright/test';
+
+async function globalSetup(config: FullConfig) {
+  const browser = await chromium.launch({ headless: false });
+  const context = await browser.newContext();
+  const page = await context.newPage();
+
+  // Go to login page
+  await page.goto('http://172.21.0.123:1997/finairoLending-1.0.1');
+
+  // Perform login
+  await page.fill('#loginId', '20');         
+  await page.fill('#passwordField', 'abcd@1234'); 
+  await page.click('#userLogin');
+
+  // Wait for logo to appear
+ // await page.waitForSelector("img[alt='Indostar']");
+  await page.waitForSelector('[data-original-title="App Pool"]');
+
+  // Save storage state for reuse
+  await context.storageState({ path: 'storageState.json' });
+   await page.locator('[data-original-title="New Lead"]').click();
+   await page.locator('#select2-idType-container').click();
+   await page.locator('.select2-search__field').fill('CPR');
+   await page.keyboard.press('Enter');
+
+  await page.locator('#idNumber').fill('YOU789876');
+
+  await page.locator('#fName').fill("Mehmood");
+  await page.locator('#sName').fill("Sadik");
+   await page.locator('#famName').fill("Pathan");
+    await page.getByRole('button', { name: 'Search' }).click();
+
+
+   await page.locator('#mobileNo').fill('98786545');
+   await page.locator('#select2-product-container').click();
+   await page.locator('.select2-search__field').fill('01-Auto Loan');
+   await page.keyboard.press('Enter');
+   await page.locator('#select2-subProduct-container').click();
+   await page.locator('.select2-search__field').fill('01-Vehicle Retail');
+    await page.keyboard.press('Enter');  
+
+    await page.locator('#select2-scheme-container').click();
+    await page.locator('.select2-search__field').fill('101-new');
+    await page.keyboard.press('Enter');  
+     
+    await page.locator('#select2-nearestBranch-container').click();
+    await page.locator('.select2-search__field').fill('Head Office');
+    await page.keyboard.press('Enter');  
+     
+    await page.locator('#convertpreLeadToApp').click();
+    await page.locator('#warningPopYesConvertAp').click();
+  
+ // await browser.close();
+}
+
+export default globalSetup;
+
+
+
+
+
+
+
+-------------------------------------------------------------
+import { test } from '@playwright/test';
+import { LoginPage } from '../Pages/LoginPage.';
+
+test('Login Test', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+
+    // If storageState.json exists, you can skip login step
+ //   await page.goto('/'); // baseURL is automatically used
+ //   await page.goto('/finairoLending-1.0.1');
+  //  await page.goto('/finairoLending-1.0.1/validLoginUser');
+    // If you want to login manually (without storageState)
+    // await loginPage.login('20', 'abcd@1234');
+
+    // Verify logo
+  //  await loginPage.isLogoVisible();
+  await page.locator('[data-original-title="App Pool"]').click();
+});
+
+
+-----------------------------------------------------------------------
